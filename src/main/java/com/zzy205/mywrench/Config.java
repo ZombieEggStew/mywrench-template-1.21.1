@@ -65,6 +65,13 @@ public class Config {
             .comment("Also allow the wrench to harvest drops from blocks that require a correct tool (stone, ores, ...).")
             .define("enableWrenchMiningDrops", true);
 
+    // ==== 扳手强化：锻造门槛 =====================================================
+
+    public static final ModConfigSpec.BooleanValue ENABLE_UPGRADE_GATE = BUILDER
+            .comment("Require the smithing upgrade (mywrench:wrench_upgraded component) before the wrench",
+                    "gets combat/mining boosts. Set to false to boost every create:wrench (testing only).")
+            .define("enableUpgradeGate", true);
+
     public static final ModConfigSpec SPEC = BUILDER.build();
 
     private static boolean validateItemName(final Object obj) {

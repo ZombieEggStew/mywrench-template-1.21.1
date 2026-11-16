@@ -1,5 +1,7 @@
 package com.zzy205.mywrench;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -7,11 +9,13 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.SmithingTemplateItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -54,6 +58,18 @@ public class MyWrench {
     public static final DeferredItem<Item> EXAMPLE_ITEM = ITEMS.registerSimpleItem("example_item", new Item.Properties().food(new FoodProperties.Builder()
             .alwaysEdible().nutrition(1).saturationModifier(2f).build()));
 
+    // 扳手升级锻造模板：在锻造台上与 create:wrench + 下界合金锭组合，给扳手挂上 mywrench:wrench_upgraded 组件
+    public static final DeferredItem<SmithingTemplateItem> WRENCH_UPGRADE_SMITHING_TEMPLATE = ITEMS.register(
+            "wrench_upgrade_smithing_template",
+            () -> new SmithingTemplateItem(
+                    Component.translatable("item.mywrench.smithing_template.wrench_upgrade.applies_to"),
+                    Component.translatable("item.mywrench.smithing_template.wrench_upgrade.ingredients"),
+                    Component.translatable("item.mywrench.smithing_template.wrench_upgrade.upgrade"),
+                    Component.translatable("item.mywrench.smithing_template.wrench_upgrade.base_slot_description"),
+                    Component.translatable("item.mywrench.smithing_template.wrench_upgrade.additions_slot_description"),
+                    List.of(ResourceLocation.withDefaultNamespace("item/empty_slot_sword")),
+                    List.of(ResourceLocation.withDefaultNamespace("item/empty_slot_ingot"))));
+
     // Creates a creative tab with the id "mywrench:example_tab" for the example item, that is placed after the combat tab
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.mywrench")) //The language key for the title of your CreativeModeTab
@@ -61,6 +77,7 @@ public class MyWrench {
             .icon(() -> EXAMPLE_ITEM.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
                 output.accept(EXAMPLE_ITEM.get());// Add the example item to the tab. For your own tabs, this method is preferred over the event
+                output.accept(WRENCH_UPGRADE_SMITHING_TEMPLATE.get());
             }).build());
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
@@ -75,6 +92,8 @@ public class MyWrench {
         ITEMS.register(modEventBus);
         // Register the Deferred Register to the mod event bus so tabs get registered
         CREATIVE_MODE_TABS.register(modEventBus);
+        // Register the Deferred Register to the mod event bus so data components get registered
+        MyWrenchDataComponents.DATA_COMPONENT_TYPES.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (MyWrench) to respond directly to events.

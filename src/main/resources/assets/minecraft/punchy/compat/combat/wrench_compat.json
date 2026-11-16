@@ -1,0 +1,7 @@
+{
+  "itemSpecific": {
+    "create:wrench": {
+      "kind": "SWORD"
+    }
+  }
+}

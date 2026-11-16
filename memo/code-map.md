@@ -34,7 +34,8 @@
 
 | 文件 | 职责 | 修改场景 |
 |---|---|---|
-| `MyWrench.java` | `@Mod(MyWrench.MODID)` 主入口；持有 `LOGGER`、`BLOCKS` / `ITEMS` / `CREATIVE_MODE_TABS` 三个 DeferredRegister；构造器里注册到 mod 事件总线、注册 `Config.SPEC`、挂 `BuildCreativeModeTabContentsEvent`；示例方块/物品/标签页在此声明 | 任何「新增注册对象」「改启动顺序」「改 config 注册类型」都要动它 |
+| `MyWrench.java` | `@Mod(MyWrench.MODID)` 主入口；持有 `LOGGER`、`BLOCKS` / `ITEMS` / `CREATIVE_MODE_TABS` 三个 DeferredRegister；构造器里注册到 mod 事件总线（含 `MyWrenchDataComponents.DATA_COMPONENT_TYPES`）、注册 `Config.SPEC`、挂 `BuildCreativeModeTabContentsEvent`；示例方块/物品/标签页、`WRENCH_UPGRADE_SMITHING_TEMPLATE` 模板物品在此声明 | 任何「新增注册对象」「改启动顺序」「改 config 注册类型」都要动它 |
+| `MyWrenchDataComponents.java` | 注册数据组件 `mywrench:wrench_upgraded`（`DataComponentType<Boolean>`，`Codec.BOOL` + `ByteBufCodecs.BOOL`）；锻造机的配方靠它给 `create:wrench` 打「已加固」标记 | 新增组件、改组件类型/同步方式 |
 | `MyWrenchClient.java` | `@Mod(value = MyWrench.MODID, dist = Dist.CLIENT)` + `@EventBusSubscriber(Dist.CLIENT)`；注册 `IConfigScreenFactory`，示例客户端 setup 日志 | 客户端初始化、屏幕/渲染器注册、客户端事件 |
 
 ### 配置
@@ -49,8 +50,12 @@
 
 | 文件 | 职责 | 修改场景 |
 |---|---|---|
-| `wrench/WrenchCombatHandler.java` | `@EventBusSubscriber(modid = MyWrench.MODID)`；监听 `ItemAttributeModifierEvent`，对 `stack.is(AllItems.WRENCH.get())` 的主手加修饰符：id 用 `Item.BASE_ATTACK_DAMAGE_ID` / `Item.BASE_ATTACK_SPEED_ID`（只有 id 等于 `Attribute#getBaseId()` 才会按「基础值+加成」合并显示），量 = `wrenchAttackDamage - 1.0`、`wrenchAttackSpeed - 4.0`（默认 8 伤害 / 1.6 攻速，tooltip 显示 `8 [1 + 7]`） | 调整武器属性、加击退/横扫、换触发条件 |
+| `wrench/WrenchCombatHandler.java` | `@EventBusSubscriber(modid = MyWrench.MODID)`；监听 `ItemAttributeModifierEvent`，对 `WrenchUpgrades.isUpgradedWrench(stack)` 成立的主手加修饰符：id 用 `Item.BASE_ATTACK_DAMAGE_ID` / `Item.BASE_ATTACK_SPEED_ID`（只有 id 等于 `Attribute#getBaseId()` 才会按「基础值+加成」合并显示），量 = `wrenchAttackDamage - 1.0`、`wrenchAttackSpeed - 4.0`（默认 8 伤害 / 1.6 攻速，tooltip 显示 `8 [1 + 7]`） | 调整武器属性、加击退/横扫、换触发条件 |
 | `wrench/WrenchMiningHandler.java` | 同一事件总线；`PlayerEvent.HarvestCheck` 里 `setCanHarvest(true)`（需 `enableWrenchMiningDrops`）；`PlayerEvent.BreakSpeed` 里 `setNewSpeed(original * wrenchMiningSpeedMultiplier)` | 挖掘速度、掉落白/黑名单、按方块标签限速 |
+| `wrench/WrenchUpgrades.java` | 升级状态判定入口：`create:wrench` 身份 + `mywrench:wrench_upgraded` 组件；`enableUpgradeGate = false` 时退化成「任何扳手都算」 | 改门槛逻辑、加更多升级状态 |
+| `wrench/WrenchTooltipHandler.java` | `ItemTooltipEvent`（在 `ItemStack#getTooltipLines` 末尾触发）给已加固扳手追加一行 `item.mywrench.wrench_upgraded.desc` | 改说明文案、加耐久/模式显示 |
+
+> **锻造门槛**：`data/mywrench/recipe/wrench_upgrade.json` 是 `smithing_transform`，`base` 为 `create:wrench`、`template` 为本模组模板、`addition` 为下界合金锭，`result` 仍是 `create:wrench` 但带 `"components": {"mywrench:wrench_upgraded": true}`（`SmithingTransformRecipe` 用 `ItemStack.STRICT_CODEC` 解析结果，并用 `transmuteCopy` + `applyComponents` 组装，所以同一个物品可以被「贴组件」升级）。模板自身的获取配方是 `wrench_upgrade_smithing_template.json`（占位：4 钻石 + 1 下界岩，用户之后自己改）。
 
 > 事件方案**不新建物品**：Create 里约 30 处用 `AllItems.WRENCH.isIn(stack)`（严格 `getItem() ==` 身份）判断，只有约 8 处走 `#c:tools/wrench` 标签。换新物品会让皮带切割、钢梁、部署器、半径扳手菜单等大量交互失效，所以强化对象必须是原 `create:wrench`。
 
@@ -58,7 +63,14 @@
 
 | 路径 | 职责 |
 |---|---|
-| `src/main/resources/assets/mywrench/lang/en_us.json` | 语言文件（当前仅标签页键） |
+| `src/main/resources/assets/mywrench/lang/en_us.json` | 语言文件：标签页键、配置项、锻造模板 5 个描述键、已加固说明行 |
+| `src/main/resources/assets/mywrench/lang/zh_cn.json` | 同键中文翻译（两个文件要同步加键） |
+| `assets/mywrench/textures/item/wrench_upgrade_smithing_template.png` | 模板贴图（16×16，当前是原版下界合金模板底图的复制，用于改色占位） |
+| `assets/mywrench/models/item/wrench_upgrade_smithing_template.json` | 模板物品模型（`item/generated`，和原版模板结构一致） |
+| `data/mywrench/recipe/wrench_upgrade.json` | 锻造配方：模板 + `create:wrench` + 下界合金锭 → 带 `wrench_upgraded` 组件的 `create:wrench` |
+| `data/mywrench/recipe/wrench_upgrade_smithing_template.json` | 模板获取配方（占位，待用户改材料） |
+| `data/minecraft/tags/item/swords.json` | 把 `create:wrench` 追加进原版 `#minecraft:swords` 物品标签（1.21 起标签目录是单数 `tags/item`），让 Punchy 之类的动画 mod 把扳手识别成剑；副作用：扳手可被附剑类附魔、动画类 mod 会用剑的挖掘动作 |
+| `assets/minecraft/punchy/compat/combat/wrench_compat.json` | Punchy 兼容数据：`itemSpecific.create:wrench.kind = "SWORD"`，直接指定 Punchy 的物品 kind（Punchy 会合并资源包/模组里的 `punchy/compat/**`） |
 | `src/main/templates/META-INF/neoforge.mods.toml` | 模组元数据模板，依赖声明写在这里（占位符由 gradle 展开） |
 
 ## 4. 当前已知边界（改动前核对）

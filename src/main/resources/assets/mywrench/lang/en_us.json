@@ -16,5 +16,14 @@
   "mywrench.configuration.wrenchAttackSpeed": "Wrench Attack Speed",
   "mywrench.configuration.enableWrenchMining": "Enable Wrench Mining",
   "mywrench.configuration.wrenchMiningSpeedMultiplier": "Wrench Mining Speed Multiplier",
-  "mywrench.configuration.enableWrenchMiningDrops": "Enable Wrench Mining Drops"
+  "mywrench.configuration.enableWrenchMiningDrops": "Enable Wrench Mining Drops",
+  "mywrench.configuration.enableUpgradeGate": "Require Smithing Upgrade",
+
+  "item.mywrench.wrench_upgrade_smithing_template": "Wrench Upgrade Smithing Template",
+  "item.mywrench.smithing_template.wrench_upgrade.upgrade": "Wrench Upgrade",
+  "item.mywrench.smithing_template.wrench_upgrade.applies_to": "Create Wrench",
+  "item.mywrench.smithing_template.wrench_upgrade.ingredients": "Netherite Ingot",
+  "item.mywrench.smithing_template.wrench_upgrade.base_slot_description": "Add a Create Wrench",
+  "item.mywrench.smithing_template.wrench_upgrade.additions_slot_description": "Add a Netherite Ingot",
+  "item.mywrench.wrench_upgraded.desc": "Reinforced: can be used as a weapon and a mining tool"
 }

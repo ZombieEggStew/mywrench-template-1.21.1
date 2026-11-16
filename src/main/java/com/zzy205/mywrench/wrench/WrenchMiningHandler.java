@@ -1,6 +1,5 @@
 package com.zzy205.mywrench.wrench;
 
-import com.simibubi.create.AllItems;
 import com.zzy205.mywrench.Config;
 import com.zzy205.mywrench.MyWrench;
 
@@ -51,6 +50,6 @@ public final class WrenchMiningHandler {
     }
 
     private static boolean isHoldingWrench(Player player) {
-        return player != null && player.getMainHandItem().is(AllItems.WRENCH.get());
+        return player != null && WrenchUpgrades.isUpgradedWrench(player.getMainHandItem());
     }
 }

@@ -1,6 +1,5 @@
 package com.zzy205.mywrench.wrench;
 
-import com.simibubi.create.AllItems;
 import com.zzy205.mywrench.Config;
 import com.zzy205.mywrench.MyWrench;
 
@@ -42,7 +41,7 @@ public final class WrenchCombatHandler {
             return;
 
         ItemStack stack = event.getItemStack();
-        if (!stack.is(AllItems.WRENCH.get()))
+        if (!WrenchUpgrades.isUpgradedWrench(stack))
             return;
 
         double damageBonus = Config.WRENCH_ATTACK_DAMAGE.getAsDouble() - PLAYER_BASE_ATTACK_DAMAGE;
