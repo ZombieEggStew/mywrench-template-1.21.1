@@ -3,7 +3,7 @@
 > 给 Create 的扳手准备了两条锻造升级路线：一条让它成为趁手的武器，一条让它变成万能工具。
 > 物品还是那把 Create 扳手，所以原有的扳手交互一个都不会丢。
 
-**支持版本：** Minecraft 1.21.1 · NeoForge 21.1.228
+**支持版本：** Minecraft 1.21.1 · NeoForge 21.1.238
 **前置模组：** Create 6.0.10（Ponder / Flywheel 随 Create 自带）
 
 ---
@@ -38,7 +38,7 @@
 > Two smithing upgrade paths for the Create wrench: one turns it into a proper weapon, the other into an all-purpose tool.
 > It is still the very same Create wrench, so every existing wrench interaction keeps working.
 
-**Supported:** Minecraft 1.21.1 · NeoForge 21.1.228
+**Supported:** Minecraft 1.21.1 · NeoForge 21.1.238
 **Requires:** Create 6.0.10 (Ponder / Flywheel ship with Create)
 
 ---

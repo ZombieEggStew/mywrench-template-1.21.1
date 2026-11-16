@@ -7,7 +7,7 @@
 
 ## 项目事实（动手前先确认这几条）
 
-- Minecraft **1.21.1** + NeoForge **21.1.228**，Java **21**，Gradle **9.2.1**，插件 `net.neoforged.moddev 2.0.148`。
+- Minecraft **1.21.1** + NeoForge **21.1.238**，Java **21**，Gradle **9.2.1**，插件 `net.neoforged.moddev 2.0.148`。
 - mod id `mywrench`，显示名 `My Wrench`，Java 包根 `com.zzy205.mywrench`，资源命名空间 `assets/mywrench/`。
 - 本项目是 **Create 附属 mod**。硬依赖（`src/main/templates/META-INF/neoforge.mods.toml` 已声明 `type="required"`）：
   - `create` 6.0.10 —— 主依赖

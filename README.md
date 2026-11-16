@@ -11,7 +11,7 @@
     <img src="https://img.shields.io/modrinth/dt/my-wrench?logo=modrinth&label=&suffix=%20&style=flat&color=242629&labelColor=5CA424&logoColor=1C1C1C" alt="Modrinth"></a>
 </h1>
 
-A Create addon for Minecraft **1.21.1** + NeoForge **21.1.228** (`mod id: mywrench`).
+A Create addon for Minecraft **1.21.1** + NeoForge **21.1.238** (`mod id: mywrench`).
 
 ## Requirements
 
