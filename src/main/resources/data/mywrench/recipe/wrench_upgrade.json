@@ -13,7 +13,9 @@
     "count": 1,
     "id": "create:wrench",
     "components": {
-      "mywrench:wrench_upgraded": true
+      "mywrench:wrench_upgraded": true,
+      "minecraft:max_damage": 4096,
+      "minecraft:unbreakable": {}
     }
   }
 }

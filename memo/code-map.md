@@ -67,9 +67,11 @@
 | `src/main/resources/assets/mywrench/lang/zh_cn.json` | 同键中文翻译（两个文件要同步加键） |
 | `assets/mywrench/textures/item/wrench_upgrade_smithing_template.png` | 模板贴图（16×16，当前是原版下界合金模板底图的复制，用于改色占位） |
 | `assets/mywrench/models/item/wrench_upgrade_smithing_template.json` | 模板物品模型（`item/generated`，和原版模板结构一致） |
-| `data/mywrench/recipe/wrench_upgrade.json` | 锻造配方：模板 + `create:wrench` + 下界合金锭 → 带 `wrench_upgraded` 组件的 `create:wrench` |
+| `data/mywrench/recipe/wrench_upgrade.json` | 锻造配方：模板 + `create:wrench` + 下界合金锭 → 带 `mywrench:wrench_upgraded` 组件的 `create:wrench`；结果同时写 `minecraft:max_damage: 4096` + `minecraft:unbreakable: {}`——因为 `Item#isEnchantable` 要求 `getMaxStackSize()==1 && has(MAX_DAMAGE)`，没有 `MAX_DAMAGE` 的扳手在附魔台上会被直接跳过；`unbreakable` 保证它仍然永不磨损 |
 | `data/mywrench/recipe/wrench_upgrade_smithing_template.json` | 模板获取配方（占位，待用户改材料） |
 | `data/minecraft/tags/item/swords.json` | 把 `create:wrench` 追加进原版 `#minecraft:swords` 物品标签（1.21 起标签目录是单数 `tags/item`），让 Punchy 之类的动画 mod 把扳手识别成剑；副作用：扳手可被附剑类附魔、动画类 mod 会用剑的挖掘动作 |
+| `data/minecraft/tags/item/enchantable/mining.json` | 追加 `create:wrench` 进 `#minecraft:enchantable/mining`，效率附魔（`efficiency` 的 `supported_items`）才能出现在附魔台上 |
+| `data/minecraft/tags/item/enchantable/mining_loot.json` | 追加 `create:wrench` 进 `#minecraft:enchantable/mining_loot`，时运 / 精准采集（`fortune` / `silk_touch` 的 `supported_items`）才能附上；注意真正生效还要求栈上有 `MAX_DAMAGE`（见配方那一行） |
 | `assets/minecraft/punchy/compat/combat/wrench_compat.json` | Punchy 兼容数据：`itemSpecific.create:wrench.kind = "SWORD"`，直接指定 Punchy 的物品 kind（Punchy 会合并资源包/模组里的 `punchy/compat/**`） |
 | `src/main/templates/META-INF/neoforge.mods.toml` | 模组元数据模板，依赖声明写在这里（占位符由 gradle 展开） |
 
