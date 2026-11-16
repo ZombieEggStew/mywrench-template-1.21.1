@@ -51,7 +51,7 @@
 | 文件 | 职责 | 修改场景 |
 |---|---|---|
 | `wrench/WrenchCombatHandler.java` | `@EventBusSubscriber(modid = MyWrench.MODID)`；监听 `ItemAttributeModifierEvent`，对 `WrenchUpgrades.isUpgradedWrench(stack)` 成立的主手加修饰符：id 用 `Item.BASE_ATTACK_DAMAGE_ID` / `Item.BASE_ATTACK_SPEED_ID`（只有 id 等于 `Attribute#getBaseId()` 才会按「基础值+加成」合并显示），量 = `wrenchAttackDamage - 1.0`、`wrenchAttackSpeed - 4.0`（默认 8 伤害 / 1.6 攻速，tooltip 显示 `8 [1 + 7]`） | 调整武器属性、加击退/横扫、换触发条件 |
-| `wrench/WrenchMiningHandler.java` | 同一事件总线；`PlayerEvent.HarvestCheck` 里 `setCanHarvest(true)`（需 `enableWrenchMiningDrops`）；`PlayerEvent.BreakSpeed` 里 `setNewSpeed(original * wrenchMiningSpeedMultiplier)` | 挖掘速度、掉落白/黑名单、按方块标签限速 |
+| `wrench/WrenchMiningHandler.java` | 同一事件总线；`PlayerEvent.HarvestCheck` 里 `setCanHarvest(true)`（需 `enableWrenchMiningDrops`）；`PlayerEvent.BreakSpeed` 里按「(配置倍率 + `Attributes.MINING_EFFICIENCY`) × originalSpeed」重算——原版 `Player#getDigSpeed` 只在基础速度 `> 1.0F` 时才加效率属性，扳手无 `TOOL` 组件（基础 1.0）永远进不去该分支，所以必须在这里补 | 挖掘速度、掉落白/黑名单、按方块标签限速、效率/急迫等附魔与药水协同 |
 | `wrench/WrenchUpgrades.java` | 升级状态判定入口：`create:wrench` 身份 + `mywrench:wrench_upgraded` 组件；`enableUpgradeGate = false` 时退化成「任何扳手都算」 | 改门槛逻辑、加更多升级状态 |
 | `wrench/WrenchTooltipHandler.java` | `ItemTooltipEvent`（在 `ItemStack#getTooltipLines` 末尾触发）给已加固扳手追加一行 `item.mywrench.wrench_upgraded.desc` | 改说明文案、加耐久/模式显示 |
 
