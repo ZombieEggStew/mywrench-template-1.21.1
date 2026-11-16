@@ -34,7 +34,38 @@ public class Config {
             .comment("A list of items to log on common setup.")
             .defineListAllowEmpty("items", List.of("minecraft:iron_ingot"), () -> "", Config::validateItemName);
 
-    static final ModConfigSpec SPEC = BUILDER.build();
+    // ==== 扳手强化：战斗 =========================================================
+
+    public static final ModConfigSpec.BooleanValue ENABLE_WRENCH_COMBAT = BUILDER
+            .comment("Give the Create wrench (create:wrench) weapon attributes.")
+            .define("enableWrenchCombat", true);
+
+    public static final ModConfigSpec.DoubleValue WRENCH_ATTACK_DAMAGE = BUILDER
+            .comment("Total attack damage while holding the wrench (base 1.0 + this item's bonus).",
+                    "The modifier amount is (this value - 1.0), so the default 8.0 shows as '8 Attack Damage'.")
+            .defineInRange("wrenchAttackDamage", 8.0D, 0.0D, 100.0D);
+
+    public static final ModConfigSpec.DoubleValue WRENCH_ATTACK_SPEED = BUILDER
+            .comment("Final attack speed while holding the wrench, in attacks per second.",
+                    "Players have a base attack speed of 4.0, so the modifier is (this value - 4.0); the default 1.6 shows as '1.6 Attack Speed'.")
+            .defineInRange("wrenchAttackSpeed", 1.6D, 0.1D, 4.0D);
+
+    // ==== 扳手强化：挖掘 =========================================================
+
+    public static final ModConfigSpec.BooleanValue ENABLE_WRENCH_MINING = BUILDER
+            .comment("Let the Create wrench mine blocks with a boosted speed.")
+            .define("enableWrenchMining", true);
+
+    public static final ModConfigSpec.DoubleValue WRENCH_MINING_SPEED_MULTIPLIER = BUILDER
+            .comment("Mining speed multiplier applied to the wrench.",
+                    "A non-tool item has a base mining speed of 1.0, so 8.0 is roughly diamond tool speed.")
+            .defineInRange("wrenchMiningSpeedMultiplier", 8.0D, 1.0D, 100.0D);
+
+    public static final ModConfigSpec.BooleanValue ENABLE_WRENCH_MINING_DROPS = BUILDER
+            .comment("Also allow the wrench to harvest drops from blocks that require a correct tool (stone, ores, ...).")
+            .define("enableWrenchMiningDrops", true);
+
+    public static final ModConfigSpec SPEC = BUILDER.build();
 
     private static boolean validateItemName(final Object obj) {
         return obj instanceof String itemName && BuiltInRegistries.ITEM.containsKey(ResourceLocation.parse(itemName));

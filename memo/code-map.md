@@ -21,6 +21,8 @@
 | 配置项 | `Config.java`（`ModConfigSpec.BUILDER`） | `lang/en_us.json` 中的配置翻译、`MyWrenchClient.java`（配置界面扩展点） |
 | 启动期初始化逻辑 | `MyWrench.java` 构造器 / `commonSetup` | — |
 | 客户端专属初始化、客户端事件 | `MyWrenchClient.java` | `MyWrench.java`（共享逻辑放哪边） |
+| 扳手攻击伤害 / 攻击速度 | `wrench/WrenchCombatHandler.java`（`ItemAttributeModifierEvent`） | `Config.java` 的 `enableWrenchCombat` 等项 |
+| 扳手挖掘速度 / 掉落 | `wrench/WrenchMiningHandler.java`（`PlayerEvent.BreakSpeed` / `HarvestCheck`） | `Config.java` 的 `enableWrenchMining` 等项 |
 | 依赖版本升级 | `gradle.properties` → `build.gradle` → `neoforge.mods.toml` | 见 `AGENTS.md`「依赖变更规则」 |
 | 本地依赖 jar 缺失 | `libs/<group>/<artifact>/<version>/` | `build.gradle` 的 `repositories`（LocalLibs 与在线回退） |
 
@@ -39,8 +41,18 @@
 
 | 文件 | 职责 | 修改场景 |
 |---|---|---|
-| `Config.java` | `ModConfigSpec` 示例：布尔 / 整数 / 字符串 / 字符串列表四种写法 + 校验器 | 加配置项、改默认值、加校验 |
+| `Config.java` | `ModConfigSpec` 示例：布尔 / 整数 / 字符串 / 字符串列表四种写法 + 校验器；另有扳手强化配置（`enableWrenchCombat` / `wrenchAttackDamage` / `wrenchAttackSpeed` / `enableWrenchMining` / `wrenchMiningSpeedMultiplier` / `enableWrenchMiningDrops`），`SPEC` 已改为 `public` | 加配置项、改默认值、加校验 |
 | `lang/en_us.json` | `itemGroup.mywrench` 与配置项翻译 | 新增可翻译文本 |
+| `lang/zh_cn.json` | 与 en_us 同键的中文翻译 | 同上（两个语言文件同步加键） |
+
+### 扳手强化（关键设计）
+
+| 文件 | 职责 | 修改场景 |
+|---|---|---|
+| `wrench/WrenchCombatHandler.java` | `@EventBusSubscriber(modid = MyWrench.MODID)`；监听 `ItemAttributeModifierEvent`，对 `stack.is(AllItems.WRENCH.get())` 的主手加修饰符：id 用 `Item.BASE_ATTACK_DAMAGE_ID` / `Item.BASE_ATTACK_SPEED_ID`（只有 id 等于 `Attribute#getBaseId()` 才会按「基础值+加成」合并显示），量 = `wrenchAttackDamage - 1.0`、`wrenchAttackSpeed - 4.0`（默认 8 伤害 / 1.6 攻速，tooltip 显示 `8 [1 + 7]`） | 调整武器属性、加击退/横扫、换触发条件 |
+| `wrench/WrenchMiningHandler.java` | 同一事件总线；`PlayerEvent.HarvestCheck` 里 `setCanHarvest(true)`（需 `enableWrenchMiningDrops`）；`PlayerEvent.BreakSpeed` 里 `setNewSpeed(original * wrenchMiningSpeedMultiplier)` | 挖掘速度、掉落白/黑名单、按方块标签限速 |
+
+> 事件方案**不新建物品**：Create 里约 30 处用 `AllItems.WRENCH.isIn(stack)`（严格 `getItem() ==` 身份）判断，只有约 8 处走 `#c:tools/wrench` 标签。换新物品会让皮带切割、钢梁、部署器、半径扳手菜单等大量交互失效，所以强化对象必须是原 `create:wrench`。
 
 ### 资源
 

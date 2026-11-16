@@ -1,0 +1,20 @@
+{
+  "itemGroup.mywrench": "Example Mod Tab",
+  "block.mywrench.example_block": "Example Block",
+  "item.mywrench.example_item": "Example Item",
+
+  "mywrench.configuration.title": "My Wrench 配置",
+  "mywrench.configuration.section.mywrench.common.toml": "My Wrench 配置",
+  "mywrench.configuration.section.mywrench.common.toml.title": "My Wrench 配置",
+  "mywrench.configuration.items": "物品列表",
+  "mywrench.configuration.logDirtBlock": "记录泥土方块",
+  "mywrench.configuration.magicNumberIntroduction": "魔法数字文本",
+  "mywrench.configuration.magicNumber": "魔法数字",
+
+  "mywrench.configuration.enableWrenchCombat": "启用扳手战斗属性",
+  "mywrench.configuration.wrenchAttackDamage": "扳手额外攻击伤害",
+  "mywrench.configuration.wrenchAttackSpeed": "扳手攻击速度",
+  "mywrench.configuration.enableWrenchMining": "启用扳手挖掘",
+  "mywrench.configuration.wrenchMiningSpeedMultiplier": "扳手挖掘速度倍率",
+  "mywrench.configuration.enableWrenchMiningDrops": "启用扳手挖掘掉落"
+}

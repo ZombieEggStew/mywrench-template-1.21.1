@@ -9,5 +9,12 @@
   "mywrench.configuration.items": "Item List",
   "mywrench.configuration.logDirtBlock": "Log Dirt Block",
   "mywrench.configuration.magicNumberIntroduction": "Magic Number Text",
-  "mywrench.configuration.magicNumber": "Magic Number"
+  "mywrench.configuration.magicNumber": "Magic Number",
+
+  "mywrench.configuration.enableWrenchCombat": "Enable Wrench Combat",
+  "mywrench.configuration.wrenchAttackDamage": "Wrench Attack Damage",
+  "mywrench.configuration.wrenchAttackSpeed": "Wrench Attack Speed",
+  "mywrench.configuration.enableWrenchMining": "Enable Wrench Mining",
+  "mywrench.configuration.wrenchMiningSpeedMultiplier": "Wrench Mining Speed Multiplier",
+  "mywrench.configuration.enableWrenchMiningDrops": "Enable Wrench Mining Drops"
 }
