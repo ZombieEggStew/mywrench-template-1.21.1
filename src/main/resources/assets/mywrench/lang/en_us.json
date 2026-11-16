@@ -1,0 +1,13 @@
+{
+  "itemGroup.mywrench": "Example Mod Tab",
+  "block.mywrench.example_block": "Example Block",
+  "item.mywrench.example_item": "Example Item",
+
+  "mywrench.configuration.title": "My Wrench Configs",
+  "mywrench.configuration.section.mywrench.common.toml": "My Wrench Configs",
+  "mywrench.configuration.section.mywrench.common.toml.title": "My Wrench Configs",
+  "mywrench.configuration.items": "Item List",
+  "mywrench.configuration.logDirtBlock": "Log Dirt Block",
+  "mywrench.configuration.magicNumberIntroduction": "Magic Number Text",
+  "mywrench.configuration.magicNumber": "Magic Number"
+}

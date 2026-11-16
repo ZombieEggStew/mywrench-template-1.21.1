@@ -1,0 +1,55 @@
+### Gradle ###
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/**/build/
+
+### IntelliJ IDEA ###
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/**/out/
+
+.run/
+
+### Eclipse ###
+.apt_generated
+.classpath
+.eclipse/
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/**/bin/
+
+### VS Code ###
+.vscode/
+
+### Mac OS ###
+.DS_Store
+
+### Minecraft Modding ###
+run/
+!**/src/**/run/
+**/src/generated/**/.cache/
+repo/
+!**/src/**/repo/
+
+### 本地依赖仓库（maven 布局的 jar，体积大，不进版本库）###
+# libs/ 缺东西时 build.gradle 会回退到 maven.createmod.net / tterrag maven
+libs/
+
+### 调研与 Agent 临时产物 ###
+# 共享的 api/、references/ 在 D:\aMyMCMods\ 下，不在本仓库内，此处仅作防手滑
+api/
+references/
+sources/
+.research/
+.dsh/
+.dsh-drop/
+temp/
+tools/
