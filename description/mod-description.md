@@ -33,7 +33,7 @@
 
 ---
 
-# My Wrench (English)
+# My Wrench
 
 > Two smithing upgrade paths for the Create wrench: one turns it into a proper weapon, the other into an all-purpose tool.
 > It is still the very same Create wrench, so every existing wrench interaction keeps working.
