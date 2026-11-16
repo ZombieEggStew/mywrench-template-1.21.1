@@ -1,12 +1,13 @@
 # mywrench 代码地图（code-map）
 
-> 定位/修改 Java 源码时的**首要入口**。当前项目处于模板骨架阶段，文件极少，本文件随功能落地同步更新。
-> 项目事实见 `AGENTS.md`；外部依赖 API 位置见 `memo/api-code-map.md`。
+> 定位/修改 Java 源码时的**首要入口**。
+> 功能设计、数据约定、配置默认值与踩坑见 `memo/project-overview.md`；项目硬事实见 `AGENTS.md`；外部依赖 API 位置见 `memo/api-code-map.md`。
 
 ## 1. 现状总览
 
 - mod id：`mywrench`；Java 根包：`src/main/java/com/zzy205/mywrench`
-- 资源命名空间：`src/main/resources/assets/mywrench/`（当前只有 `lang/en_us.json`）
+- 资源命名空间：`src/main/resources/assets/mywrench/`（lang / models / textures）；另有 `assets/minecraft/punchy/` 兼容数据与 `data/minecraft/tags/item/` 标签追加
+- 已实现：两张锻造模板（攻击 / 工具）→ 原版 `create:wrench` 的两条升级路径，详见 `memo/project-overview.md`
 - 元数据模板：`src/main/templates/META-INF/neoforge.mods.toml`（由 `generateModMetadata` 展开到 `build/generated/sources/modMetadata`）
 - 依赖：Create 6.0.10 / Ponder 1.0.82 / Flywheel 1.0.6（硬依赖）+ Registrate 1.3.0（仅编译期库）
 
@@ -17,12 +18,13 @@
 | 新增方块 / 方块物品 | `MyWrench.java`（`BLOCKS` / `ITEMS` DeferredRegister） | `assets/mywrench/lang/en_us.json`、`assets/mywrench/models`、`blockstates` |
 | 新增普通物品 | `MyWrench.java`（`ITEMS`） | `lang/en_us.json`、`models/item` |
 | 改用 Registrate 注册（可选路线） | `MyWrench.java`（构造函数内 `Registrate.create(MODID)`） | `memo/api-code-map.md` §3 Registrate、`D:\aMyMCMods\api\Registrate-MC1.21-1.3.0+67-sources` |
-| 创造模式标签页内容 | `MyWrench.java`（`CREATIVE_MODE_TABS`、`addCreative`） | `lang/en_us.json` 中 `itemGroup.mywrench` |
+| 创造模式标签页内容（已删除自定义页，现走原版页） | `MyWrench.java`（`addCreative` 里的 `CreativeModeTabs.INGREDIENTS`） | `lang/en_us.json` |
 | 配置项 | `Config.java`（`ModConfigSpec.BUILDER`） | `lang/en_us.json` 中的配置翻译、`MyWrenchClient.java`（配置界面扩展点） |
 | 启动期初始化逻辑 | `MyWrench.java` 构造器 / `commonSetup` | — |
 | 客户端专属初始化、客户端事件 | `MyWrenchClient.java` | `MyWrench.java`（共享逻辑放哪边） |
 | 扳手攻击伤害 / 攻击速度 | `wrench/WrenchCombatHandler.java`（`ItemAttributeModifierEvent`） | `Config.java` 的 `enableWrenchCombat` 等项 |
-| 扳手挖掘速度 / 掉落 | `wrench/WrenchMiningHandler.java`（`PlayerEvent.BreakSpeed` / `HarvestCheck`） | `Config.java` 的 `enableWrenchMining` 等项 |
+| 扳手工具速度 / 方块掉落 | `wrench/WrenchToolHandler.java`（`PlayerEvent.BreakSpeed` / `HarvestCheck`） | `Config.java` 的 `enableWrenchTool` 等项 |
+| 升级门槛（哪条升级生效） | `wrench/WrenchUpgrades.java` | `MyWrenchDataComponents.java` 的两个组件、四个锻造配方 |
 | 依赖版本升级 | `gradle.properties` → `build.gradle` → `neoforge.mods.toml` | 见 `AGENTS.md`「依赖变更规则」 |
 | 本地依赖 jar 缺失 | `libs/<group>/<artifact>/<version>/` | `build.gradle` 的 `repositories`（LocalLibs 与在线回退） |
 

@@ -11,8 +11,8 @@
   },
   "pattern": [
     " B ",
-    "BNB",
-    " B "
+    " B ",
+    " N "
   ],
   "result": {
     "count": 1,
