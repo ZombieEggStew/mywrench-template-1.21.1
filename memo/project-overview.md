@@ -8,7 +8,7 @@ Create 附属 mod：**不新增物品**，通过 NeoForge 事件给原版 `creat
 
 - mod id：`mywrench`，显示名 `My Wrench`
 - 包根：`com.zzy205.mywrench`，资源命名空间 `assets/mywrench/`
-- 环境：Minecraft 1.21.1 + NeoForge 21.1.266 + Java 21 + Gradle 9.2.1（`net.neoforged.moddev 2.0.148`）
+- 环境：Minecraft 1.21.1 + NeoForge 21.1.228 + Java 21 + Gradle 9.2.1（`net.neoforged.moddev 2.0.148`）
 - 硬依赖：`create` 6.0.10、`ponder` 1.0.82、`flywheel` 1.0.6；`Registrate` 1.3.0 只做编译期库（**不要**写进 `neoforge.mods.toml`）
 
 ## 2. 为什么强化原版扳手而不是新物品（核心约束）
@@ -157,6 +157,7 @@ src/main/resources/
 6. **锻造结果支持组件**：`SmithingTransformRecipe` 用 `ItemStack.STRICT_CODEC` 解析 `result`，`assemble` 用 `transmuteCopy` + `applyComponents`。
 7. **组件改名会让旧物品失效**：`wrench_upgraded`（初版）→ `wrench_attack_upgrade` + `wrench_mining_upgrade` → 现行 `wrench_attack_upgrade` + `wrench_tool_upgrade`。每次改名后老存档里已升级的扳手都会退回普通扳手，需要重新锻造或 `/give`。
 8. **配置键改名会让旧配置文件被丢弃**（`enableWrenchMining*` → `enableWrenchTool*`），新键按默认值重建。
+9. **改 `neo_version` 后 IDE 报 `The import net.minecraft.world.item.ItemStack cannot be resolved` 是假报错**：ModDevGradle 要把 `build/moddev/artifacts/neoforge-<neo_version>.jar` 现场生成（NFRT patch + 重编译约 45s~1min），IDE 在这之前仍指向旧版本 jar，于是**整条 Minecraft classpath 缺失**，任何 `net.minecraft.*` / `net.neoforged.*` 的 import 都会全红。解决：先跑一次 `.\gradlew.bat classes` 生成产物，再在 IDE 里 Reload Gradle Project / Clean Java Language Server Workspace。[实测] 从 21.1.266 降到 21.1.228 源码一行没改即可编译通过；Create 6.0.10 只要求 `neoforge >= 21.1.219`，228 满足。
 
 ## 11. 可选的后续方向
 
