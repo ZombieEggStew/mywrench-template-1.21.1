@@ -34,7 +34,7 @@
 
 | 文件 | 职责 | 修改场景 |
 |---|---|---|
-| `MyWrench.java` | `@Mod(MyWrench.MODID)` 主入口；持有 `LOGGER`、`BLOCKS` / `ITEMS` / `CREATIVE_MODE_TABS` 三个 DeferredRegister；构造器里注册到 mod 事件总线（含 `MyWrenchDataComponents.DATA_COMPONENT_TYPES`）、注册 `Config.SPEC`、挂 `BuildCreativeModeTabContentsEvent`；示例方块/物品/标签页、`WRENCH_UPGRADE_SMITHING_TEMPLATE` 模板物品在此声明 | 任何「新增注册对象」「改启动顺序」「改 config 注册类型」都要动它 |
+| `MyWrench.java` | `@Mod(MyWrench.MODID)` 主入口；持有 `LOGGER`、`BLOCKS` / `ITEMS` / `CREATIVE_MODE_TABS` 三个 DeferredRegister；构造器里注册到 mod 事件总线（含 `MyWrenchDataComponents.DATA_COMPONENT_TYPES`）、注册 `Config.SPEC`、挂 `BuildCreativeModeTabContentsEvent`；保留 `example_block`（示例方块），`example_item` 已移除；`WRENCH_UPGRADE_SMITHING_TEMPLATE` 模板物品与两个 tooltip 颜色常量（`TEMPLATE_TITLE_COLOR` = `#a8a8a8`、`TEMPLATE_DESCRIPTION_COLOR` = `#5454fc`）在此声明；`EXAMPLE_TAB` 只放模板 | 任何「新增注册对象」「改启动顺序」「改 config 注册类型」都要动它 |
 | `MyWrenchDataComponents.java` | 注册数据组件 `mywrench:wrench_upgraded`（`DataComponentType<Boolean>`，`Codec.BOOL` + `ByteBufCodecs.BOOL`）；锻造机的配方靠它给 `create:wrench` 打「已加固」标记 | 新增组件、改组件类型/同步方式 |
 | `MyWrenchClient.java` | `@Mod(value = MyWrench.MODID, dist = Dist.CLIENT)` + `@EventBusSubscriber(Dist.CLIENT)`；注册 `IConfigScreenFactory`，示例客户端 setup 日志 | 客户端初始化、屏幕/渲染器注册、客户端事件 |
 

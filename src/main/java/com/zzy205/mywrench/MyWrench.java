@@ -9,12 +9,11 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SmithingTemplateItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -54,17 +53,20 @@ public class MyWrench {
     // Creates a new BlockItem with the id "mywrench:example_block", combining the namespace and path
     public static final DeferredItem<BlockItem> EXAMPLE_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("example_block", EXAMPLE_BLOCK);
 
-    // Creates a new food item with the id "mywrench:example_id", nutrition 1 and saturation 2
-    public static final DeferredItem<Item> EXAMPLE_ITEM = ITEMS.registerSimpleItem("example_item", new Item.Properties().food(new FoodProperties.Builder()
-            .alwaysEdible().nutrition(1).saturationModifier(2f).build()));
+    // 锻造模板 tooltip 里两个描述文字的颜色：#a8a8a8 用于「Wrench Upgrade」标题，#5454fc 用于「Create Wrench」/「Netherite Ingot」
+    private static final TextColor TEMPLATE_TITLE_COLOR = TextColor.fromRgb(0xA8A8A8);
+    private static final TextColor TEMPLATE_DESCRIPTION_COLOR = TextColor.fromRgb(0x5454FC);
 
     // 扳手升级锻造模板：在锻造台上与 create:wrench + 下界合金锭组合，给扳手挂上 mywrench:wrench_upgraded 组件
     public static final DeferredItem<SmithingTemplateItem> WRENCH_UPGRADE_SMITHING_TEMPLATE = ITEMS.register(
             "wrench_upgrade_smithing_template",
             () -> new SmithingTemplateItem(
-                    Component.translatable("item.mywrench.smithing_template.wrench_upgrade.applies_to"),
-                    Component.translatable("item.mywrench.smithing_template.wrench_upgrade.ingredients"),
-                    Component.translatable("item.mywrench.smithing_template.wrench_upgrade.upgrade"),
+                    Component.translatable("item.mywrench.smithing_template.wrench_upgrade.applies_to")
+                            .withStyle(style -> style.withColor(TEMPLATE_DESCRIPTION_COLOR)),
+                    Component.translatable("item.mywrench.smithing_template.wrench_upgrade.ingredients")
+                            .withStyle(style -> style.withColor(TEMPLATE_DESCRIPTION_COLOR)),
+                    Component.translatable("item.mywrench.smithing_template.wrench_upgrade.upgrade")
+                            .withStyle(style -> style.withColor(TEMPLATE_TITLE_COLOR)),
                     Component.translatable("item.mywrench.smithing_template.wrench_upgrade.base_slot_description"),
                     Component.translatable("item.mywrench.smithing_template.wrench_upgrade.additions_slot_description"),
                     List.of(ResourceLocation.withDefaultNamespace("item/empty_slot_sword")),
@@ -74,9 +76,8 @@ public class MyWrench {
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.mywrench")) //The language key for the title of your CreativeModeTab
             .withTabsBefore(CreativeModeTabs.COMBAT)
-            .icon(() -> EXAMPLE_ITEM.get().getDefaultInstance())
+            .icon(() -> WRENCH_UPGRADE_SMITHING_TEMPLATE.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
-                output.accept(EXAMPLE_ITEM.get());// Add the example item to the tab. For your own tabs, this method is preferred over the event
                 output.accept(WRENCH_UPGRADE_SMITHING_TEMPLATE.get());
             }).build());
 

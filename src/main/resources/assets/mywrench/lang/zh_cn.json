@@ -1,7 +1,6 @@
 {
   "itemGroup.mywrench": "Example Mod Tab",
   "block.mywrench.example_block": "Example Block",
-  "item.mywrench.example_item": "Example Item",
 
   "mywrench.configuration.title": "My Wrench 配置",
   "mywrench.configuration.section.mywrench.common.toml": "My Wrench 配置",
