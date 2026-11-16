@@ -53,3 +53,5 @@ sources/
 .dsh-drop/
 temp/
 tools/
+
+.mymemo.md
