@@ -2,17 +2,17 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "I": {
-      "item": "minecraft:iron_ingot"
+    "B": {
+      "item": "create:brass_ingot"
     },
     "N": {
       "item": "minecraft:netherrack"
     }
   },
   "pattern": [
-    " I ",
-    "INI",
-    " I "
+    " B ",
+    " B ",
+    " N "
   ],
   "result": {
     "count": 1,
