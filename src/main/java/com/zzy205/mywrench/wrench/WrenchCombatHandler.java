@@ -13,7 +13,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.ItemAttributeModifierEvent;
 
 /**
- * 给仍处于 create:wrench 身份下的扳手补上武器属性。
+ * 给打了「攻击升级」的 create:wrench 补上武器属性。
  * <p>
  * {@link ItemAttributeModifierEvent} 在每次查询 {@code ItemStack#getAttributeModifiers()} 时触发
  * （NeoForge 的 IItemStackExtension 实现），因此不需要替换物品，就能让原版扳手获得
@@ -41,7 +41,7 @@ public final class WrenchCombatHandler {
             return;
 
         ItemStack stack = event.getItemStack();
-        if (!WrenchUpgrades.isUpgradedWrench(stack))
+        if (!WrenchUpgrades.hasAttackUpgrade(stack))
             return;
 
         double damageBonus = Config.WRENCH_ATTACK_DAMAGE.getAsDouble() - PLAYER_BASE_ATTACK_DAMAGE;

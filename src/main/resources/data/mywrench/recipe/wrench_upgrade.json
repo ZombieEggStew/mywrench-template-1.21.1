@@ -1,7 +1,7 @@
 {
   "type": "minecraft:smithing_transform",
   "template": {
-    "item": "mywrench:wrench_upgrade_smithing_template"
+    "item": "mywrench:wrench_attack_upgrade_smithing_template"
   },
   "base": {
     "item": "create:wrench"
@@ -13,7 +13,7 @@
     "count": 1,
     "id": "create:wrench",
     "components": {
-      "mywrench:wrench_upgraded": true,
+      "mywrench:wrench_attack_upgrade": true,
       "minecraft:max_damage": 4096,
       "minecraft:unbreakable": {}
     }

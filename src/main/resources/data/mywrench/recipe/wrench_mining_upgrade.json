@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "mywrench:wrench_mining_upgrade_smithing_template"
+  },
+  "base": {
+    "item": "create:wrench"
+  },
+  "addition": {
+    "item": "minecraft:netherite_ingot"
+  },
+  "result": {
+    "count": 1,
+    "id": "create:wrench",
+    "components": {
+      "mywrench:wrench_mining_upgrade": true,
+      "minecraft:max_damage": 4096,
+      "minecraft:unbreakable": {}
+    }
+  }
+}

@@ -68,8 +68,9 @@ public class Config {
     // ==== 扳手强化：锻造门槛 =====================================================
 
     public static final ModConfigSpec.BooleanValue ENABLE_UPGRADE_GATE = BUILDER
-            .comment("Require the smithing upgrade (mywrench:wrench_upgraded component) before the wrench",
-                    "gets combat/mining boosts. Set to false to boost every create:wrench (testing only).")
+            .comment("Require a smithing upgrade before the wrench gets its bonus:",
+                    "attack upgrade = mywrench:wrench_attack_upgrade, mining upgrade = mywrench:wrench_mining_upgrade.",
+                    "Set to false to boost every create:wrench (testing only).")
             .define("enableUpgradeGate", true);
 
     public static final ModConfigSpec SPEC = BUILDER.build();

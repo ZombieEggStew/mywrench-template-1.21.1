@@ -12,7 +12,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 
 /**
- * 让仍处于 create:wrench 身份下的扳手变成「万能挖掘工具」。
+ * 让打了「工具升级」的 create:wrench 变成「万能挖掘工具」。
  * <p>
  * 掉落判定：{@code ServerPlayerGameMode#destroyBlock} → {@code BlockState#canHarvestBlock}
  * → NeoForge 的 {@code IBlockExtension#canHarvestBlock} → 触发 {@link PlayerEvent.HarvestCheck}，
@@ -74,6 +74,6 @@ public final class WrenchMiningHandler {
     }
 
     private static boolean isHoldingWrench(Player player) {
-        return player != null && WrenchUpgrades.isUpgradedWrench(player.getMainHandItem());
+        return player != null && WrenchUpgrades.hasMiningUpgrade(player.getMainHandItem());
     }
 }

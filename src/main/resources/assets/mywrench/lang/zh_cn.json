@@ -1,5 +1,4 @@
 {
-  "itemGroup.mywrench": "Example Mod Tab",
   "block.mywrench.example_block": "Example Block",
 
   "mywrench.configuration.title": "My Wrench 配置",
@@ -18,11 +17,19 @@
   "mywrench.configuration.enableWrenchMiningDrops": "启用扳手挖掘掉落",
   "mywrench.configuration.enableUpgradeGate": "需要锻造升级",
 
-  "item.mywrench.wrench_upgrade_smithing_template": "扳手升级锻造模板",
-  "item.mywrench.smithing_template.wrench_upgrade.upgrade": "扳手升级",
-  "item.mywrench.smithing_template.wrench_upgrade.applies_to": "Create 扳手",
-  "item.mywrench.smithing_template.wrench_upgrade.ingredients": "下界合金锭",
-  "item.mywrench.smithing_template.wrench_upgrade.base_slot_description": "放入 Create 扳手",
-  "item.mywrench.smithing_template.wrench_upgrade.additions_slot_description": "放入下界合金锭",
-  "item.mywrench.wrench_upgraded.desc": "已加固：可作为武器与挖掘工具使用"
+  "item.mywrench.wrench_attack_upgrade_smithing_template": "扳手攻击升级锻造模板",
+  "item.mywrench.smithing_template.wrench_attack_upgrade.upgrade": "攻击升级",
+  "item.mywrench.smithing_template.wrench_attack_upgrade.applies_to": "Create 扳手",
+  "item.mywrench.smithing_template.wrench_attack_upgrade.ingredients": "下界合金锭",
+  "item.mywrench.smithing_template.wrench_attack_upgrade.base_slot_description": "放入 Create 扳手",
+  "item.mywrench.smithing_template.wrench_attack_upgrade.additions_slot_description": "放入下界合金锭",
+  "item.mywrench.wrench_attack_upgrade.desc": "已加固：高额攻击力",
+
+  "item.mywrench.wrench_mining_upgrade_smithing_template": "扳手工具升级锻造模板",
+  "item.mywrench.smithing_template.wrench_mining_upgrade.upgrade": "工具升级",
+  "item.mywrench.smithing_template.wrench_mining_upgrade.applies_to": "Create 扳手",
+  "item.mywrench.smithing_template.wrench_mining_upgrade.ingredients": "下界合金锭",
+  "item.mywrench.smithing_template.wrench_mining_upgrade.base_slot_description": "放入 Create 扳手",
+  "item.mywrench.smithing_template.wrench_mining_upgrade.additions_slot_description": "放入下界合金锭",
+  "item.mywrench.wrench_mining_upgrade.desc": "已加固：钻石级挖掘能力"
 }

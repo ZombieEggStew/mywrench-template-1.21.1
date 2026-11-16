@@ -7,30 +7,26 @@ import org.slf4j.Logger;
 import com.mojang.logging.LogUtils;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.SmithingTemplateItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
-import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
-import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
-import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -45,41 +41,49 @@ public class MyWrench {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MODID);
     // Create a Deferred Register to hold Items which will all be registered under the "mywrench" namespace
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MODID);
-    // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "mywrench" namespace
-    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
     // Creates a new Block with the id "mywrench:example_block", combining the namespace and path
     public static final DeferredBlock<Block> EXAMPLE_BLOCK = BLOCKS.registerSimpleBlock("example_block", BlockBehaviour.Properties.of().mapColor(MapColor.STONE));
     // Creates a new BlockItem with the id "mywrench:example_block", combining the namespace and path
     public static final DeferredItem<BlockItem> EXAMPLE_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("example_block", EXAMPLE_BLOCK);
 
-    // 锻造模板 tooltip 里两个描述文字的颜色：#a8a8a8 用于「Wrench Upgrade」标题，#5454fc 用于「Create Wrench」/「Netherite Ingot」
+    // 锻造模板 tooltip 的颜色：#a8a8a8 用于升级标题（Attack Upgrade / Mining Upgrade），#5454fc 用于「Create Wrench」/「Netherite Ingot」
     private static final TextColor TEMPLATE_TITLE_COLOR = TextColor.fromRgb(0xA8A8A8);
     private static final TextColor TEMPLATE_DESCRIPTION_COLOR = TextColor.fromRgb(0x5454FC);
 
-    // 扳手升级锻造模板：在锻造台上与 create:wrench + 下界合金锭组合，给扳手挂上 mywrench:wrench_upgraded 组件
-    public static final DeferredItem<SmithingTemplateItem> WRENCH_UPGRADE_SMITHING_TEMPLATE = ITEMS.register(
-            "wrench_upgrade_smithing_template",
-            () -> new SmithingTemplateItem(
-                    Component.translatable("item.mywrench.smithing_template.wrench_upgrade.applies_to")
-                            .withStyle(style -> style.withColor(TEMPLATE_DESCRIPTION_COLOR)),
-                    Component.translatable("item.mywrench.smithing_template.wrench_upgrade.ingredients")
-                            .withStyle(style -> style.withColor(TEMPLATE_DESCRIPTION_COLOR)),
-                    Component.translatable("item.mywrench.smithing_template.wrench_upgrade.upgrade")
-                            .withStyle(style -> style.withColor(TEMPLATE_TITLE_COLOR)),
-                    Component.translatable("item.mywrench.smithing_template.wrench_upgrade.base_slot_description"),
-                    Component.translatable("item.mywrench.smithing_template.wrench_upgrade.additions_slot_description"),
-                    List.of(ResourceLocation.withDefaultNamespace("item/empty_slot_sword")),
-                    List.of(ResourceLocation.withDefaultNamespace("item/empty_slot_ingot"))));
+    /**
+     * 扳手攻击升级模板（贴图 wrench_upgrade_smithing_template_1）：
+     * 锻造台 = 本模板 + create:wrench + 下界合金锭 → 扳手获得高额攻击力（wrench_attack_upgrade 组件）。
+     */
+    public static final DeferredItem<SmithingTemplateItem> WRENCH_ATTACK_UPGRADE_SMITHING_TEMPLATE = ITEMS.register(
+            "wrench_attack_upgrade_smithing_template",
+            () -> createTemplate(
+                    "wrench_attack_upgrade",
+                    ResourceLocation.withDefaultNamespace("item/empty_slot_sword")));
 
-    // Creates a creative tab with the id "mywrench:example_tab" for the example item, that is placed after the combat tab
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
-            .title(Component.translatable("itemGroup.mywrench")) //The language key for the title of your CreativeModeTab
-            .withTabsBefore(CreativeModeTabs.COMBAT)
-            .icon(() -> WRENCH_UPGRADE_SMITHING_TEMPLATE.get().getDefaultInstance())
-            .displayItems((parameters, output) -> {
-                output.accept(WRENCH_UPGRADE_SMITHING_TEMPLATE.get());
-            }).build());
+    /**
+     * 扳手工具升级模板（贴图 wrench_upgrade_smithing_template_2）：
+     * 锻造台 = 本模板 + create:wrench + 下界合金锭 → 扳手获得钻石级挖掘能力（wrench_mining_upgrade 组件）。
+     */
+    public static final DeferredItem<SmithingTemplateItem> WRENCH_MINING_UPGRADE_SMITHING_TEMPLATE = ITEMS.register(
+            "wrench_mining_upgrade_smithing_template",
+            () -> createTemplate(
+                    "wrench_mining_upgrade",
+                    ResourceLocation.withDefaultNamespace("item/empty_slot_pickaxe")));
+
+    private static SmithingTemplateItem createTemplate(String descriptionKey, ResourceLocation baseSlotIcon) {
+        return new SmithingTemplateItem(
+                Component.translatable("item.mywrench.smithing_template." + descriptionKey + ".applies_to")
+                        .withStyle(style -> style.withColor(TEMPLATE_DESCRIPTION_COLOR)),
+                Component.translatable("item.mywrench.smithing_template." + descriptionKey + ".ingredients")
+                        .withStyle(style -> style.withColor(TEMPLATE_DESCRIPTION_COLOR)),
+                Component.translatable("item.mywrench.smithing_template." + descriptionKey + ".upgrade")
+                        .withStyle(style -> style.withColor(TEMPLATE_TITLE_COLOR)),
+                Component.translatable("item.mywrench.smithing_template." + descriptionKey + ".base_slot_description"),
+                Component.translatable("item.mywrench.smithing_template." + descriptionKey + ".additions_slot_description"),
+                List.of(baseSlotIcon),
+                List.of(ResourceLocation.withDefaultNamespace("item/empty_slot_ingot")));
+    }
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
@@ -91,8 +95,6 @@ public class MyWrench {
         BLOCKS.register(modEventBus);
         // Register the Deferred Register to the mod event bus so items get registered
         ITEMS.register(modEventBus);
-        // Register the Deferred Register to the mod event bus so tabs get registered
-        CREATIVE_MODE_TABS.register(modEventBus);
         // Register the Deferred Register to the mod event bus so data components get registered
         MyWrenchDataComponents.DATA_COMPONENT_TYPES.register(modEventBus);
 
@@ -121,8 +123,12 @@ public class MyWrench {
         Config.ITEM_STRINGS.get().forEach((item) -> LOGGER.info("ITEM >> {}", item));
     }
 
-    // Add the example block item to the building blocks tab
+    // 把锻造模板放进原版创造模式标签页
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
+        if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
+            event.accept(WRENCH_ATTACK_UPGRADE_SMITHING_TEMPLATE);
+            event.accept(WRENCH_MINING_UPGRADE_SMITHING_TEMPLATE);
+        }
         if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
             event.accept(EXAMPLE_BLOCK_ITEM);
         }
