@@ -29,8 +29,8 @@ public final class WrenchTooltipHandler {
             event.getToolTip().add(Component.translatable("item.mywrench.wrench_attack_upgrade.desc")
                     .withStyle(ChatFormatting.GOLD));
         }
-        if (WrenchUpgrades.hasMiningUpgrade(stack)) {
-            event.getToolTip().add(Component.translatable("item.mywrench.wrench_mining_upgrade.desc")
+        if (WrenchUpgrades.hasToolUpgrade(stack)) {
+            event.getToolTip().add(Component.translatable("item.mywrench.wrench_tool_upgrade.desc")
                     .withStyle(ChatFormatting.GOLD));
         }
     }

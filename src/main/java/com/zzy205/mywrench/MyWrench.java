@@ -63,12 +63,13 @@ public class MyWrench {
 
     /**
      * 扳手工具升级模板（贴图 wrench_upgrade_smithing_template_2）：
-     * 锻造台 = 本模板 + create:wrench + 下界合金锭 → 扳手获得钻石级挖掘能力（wrench_mining_upgrade 组件）。
+     * 锻造台 = 本模板 + create:wrench + 下界合金锭 → 扳手获得钻石级工具速度
+     * （挖矿、砍树、铲土等一切方块都加速，wrench_tool_upgrade 组件）。
      */
-    public static final DeferredItem<SmithingTemplateItem> WRENCH_MINING_UPGRADE_SMITHING_TEMPLATE = ITEMS.register(
-            "wrench_mining_upgrade_smithing_template",
+    public static final DeferredItem<SmithingTemplateItem> WRENCH_TOOL_UPGRADE_SMITHING_TEMPLATE = ITEMS.register(
+            "wrench_tool_upgrade_smithing_template",
             () -> createTemplate(
-                    "wrench_mining_upgrade",
+                    "wrench_tool_upgrade",
                     ResourceLocation.withDefaultNamespace("item/empty_slot_pickaxe")));
 
     private static SmithingTemplateItem createTemplate(String descriptionKey, ResourceLocation baseSlotIcon) {
@@ -127,7 +128,7 @@ public class MyWrench {
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
             event.accept(WRENCH_ATTACK_UPGRADE_SMITHING_TEMPLATE);
-            event.accept(WRENCH_MINING_UPGRADE_SMITHING_TEMPLATE);
+            event.accept(WRENCH_TOOL_UPGRADE_SMITHING_TEMPLATE);
         }
         if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
             event.accept(EXAMPLE_BLOCK_ITEM);

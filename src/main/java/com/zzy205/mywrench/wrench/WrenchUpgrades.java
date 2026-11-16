@@ -22,9 +22,9 @@ public final class WrenchUpgrades {
         return hasUpgrade(stack, MyWrenchDataComponents.WRENCH_ATTACK_UPGRADE.get());
     }
 
-    /** 工具升级（wrench_mining_upgrade 组件）：钻石级挖掘速度 + 全方块掉落。 */
-    public static boolean hasMiningUpgrade(ItemStack stack) {
-        return hasUpgrade(stack, MyWrenchDataComponents.WRENCH_MINING_UPGRADE.get());
+    /** 工具升级（wrench_tool_upgrade 组件）：钻石级工具速度（挖矿、砍树、铲土等一切方块）。 */
+    public static boolean hasToolUpgrade(ItemStack stack) {
+        return hasUpgrade(stack, MyWrenchDataComponents.WRENCH_TOOL_UPGRADE.get());
     }
 
     private static boolean hasUpgrade(ItemStack stack, DataComponentType<Boolean> component) {

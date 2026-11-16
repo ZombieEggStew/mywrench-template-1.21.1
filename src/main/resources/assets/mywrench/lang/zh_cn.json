@@ -10,11 +10,11 @@
   "mywrench.configuration.magicNumber": "魔法数字",
 
   "mywrench.configuration.enableWrenchCombat": "启用扳手战斗属性",
-  "mywrench.configuration.wrenchAttackDamage": "扳手额外攻击伤害",
+  "mywrench.configuration.wrenchAttackDamage": "扳手攻击伤害",
   "mywrench.configuration.wrenchAttackSpeed": "扳手攻击速度",
-  "mywrench.configuration.enableWrenchMining": "启用扳手挖掘",
-  "mywrench.configuration.wrenchMiningSpeedMultiplier": "扳手挖掘速度倍率",
-  "mywrench.configuration.enableWrenchMiningDrops": "启用扳手挖掘掉落",
+  "mywrench.configuration.enableWrenchTool": "启用扳手工具模式",
+  "mywrench.configuration.wrenchToolSpeedMultiplier": "扳手工具速度倍率",
+  "mywrench.configuration.enableWrenchToolDrops": "启用扳手工具掉落",
   "mywrench.configuration.enableUpgradeGate": "需要锻造升级",
 
   "item.mywrench.wrench_attack_upgrade_smithing_template": "扳手攻击升级锻造模板",
@@ -25,11 +25,11 @@
   "item.mywrench.smithing_template.wrench_attack_upgrade.additions_slot_description": "放入下界合金锭",
   "item.mywrench.wrench_attack_upgrade.desc": "已加固：高额攻击力",
 
-  "item.mywrench.wrench_mining_upgrade_smithing_template": "扳手工具升级锻造模板",
-  "item.mywrench.smithing_template.wrench_mining_upgrade.upgrade": "工具升级",
-  "item.mywrench.smithing_template.wrench_mining_upgrade.applies_to": "Create 扳手",
-  "item.mywrench.smithing_template.wrench_mining_upgrade.ingredients": "下界合金锭",
-  "item.mywrench.smithing_template.wrench_mining_upgrade.base_slot_description": "放入 Create 扳手",
-  "item.mywrench.smithing_template.wrench_mining_upgrade.additions_slot_description": "放入下界合金锭",
-  "item.mywrench.wrench_mining_upgrade.desc": "已加固：钻石级挖掘能力"
+  "item.mywrench.wrench_tool_upgrade_smithing_template": "扳手工具升级锻造模板",
+  "item.mywrench.smithing_template.wrench_tool_upgrade.upgrade": "工具升级",
+  "item.mywrench.smithing_template.wrench_tool_upgrade.applies_to": "Create 扳手",
+  "item.mywrench.smithing_template.wrench_tool_upgrade.ingredients": "下界合金锭",
+  "item.mywrench.smithing_template.wrench_tool_upgrade.base_slot_description": "放入 Create 扳手",
+  "item.mywrench.smithing_template.wrench_tool_upgrade.additions_slot_description": "放入下界合金锭",
+  "item.mywrench.wrench_tool_upgrade.desc": "已加固：钻石级工具速度，挖掘/砍树/铲土等一切方块都加速"
 }

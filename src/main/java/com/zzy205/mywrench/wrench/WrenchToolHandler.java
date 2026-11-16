@@ -12,15 +12,22 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 
 /**
- * 让打了「工具升级」的 create:wrench 变成「万能挖掘工具」。
+ * 让打了「工具升级」的 create:wrench 变成万能工具。
+ * <p>
+ * 它同时影响三类方块行为，所以叫「工具升级」而不是「挖掘升级」：
+ * <ul>
+ *     <li>挖掘（石头、矿石等）</li>
+ *     <li>砍树（原木、木板、树叶等）</li>
+ *     <li>铲土（泥土、沙砾、沙子等）——总之 {@link PlayerEvent.BreakSpeed} 对所有方块生效</li>
+ * </ul>
  * <p>
  * 掉落判定：{@code ServerPlayerGameMode#destroyBlock} → {@code BlockState#canHarvestBlock}
  * → NeoForge 的 {@code IBlockExtension#canHarvestBlock} → 触发 {@link PlayerEvent.HarvestCheck}，
- * 因此把 canHarvest 设成 true 就能让需要「正确工具」的方块也正常掉落。
+ * 因此把 canHarvest 设成 true 就能让「需要正确工具」的方块（石头/矿石等）也正常掉落。
  * <p>
- * 挖掘速度：{@code Player#getDigSpeed} 在算完药水/水下/悬空等倍率后触发
+ * 破坏速度：{@code Player#getDigSpeed} 在算完药水/水下/悬空等倍率后触发
  * {@link PlayerEvent.BreakSpeed}。扳手不是工具，基础速度是 1.0，
- * 所以按倍数放大后，x8 约等于钻石工具的挖掘速度，同时保留原版的各种惩罚。
+ * 所以按倍数放大后，x8 约等于钻石工具的破坏速度，同时保留原版的各种惩罚。
  * <p>
  * 效率附魔：原版 {@code Player#getDigSpeed} 里只会在 {@code f > 1.0F} 时把
  * {@link Attributes#MINING_EFFICIENCY}（效率附魔给的属性，量 = 等级²+1）加进基础速度。
@@ -29,18 +36,18 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
  * {@code 新速度 = (虚拟工具速度 + 效率属性值) × (药水/水下/悬空等倍率之积)}。
  */
 @EventBusSubscriber(modid = MyWrench.MODID)
-public final class WrenchMiningHandler {
+public final class WrenchToolHandler {
 
-    private WrenchMiningHandler() {
+    private WrenchToolHandler() {
     }
 
     @SubscribeEvent
     public static void onHarvestCheck(PlayerEvent.HarvestCheck event) {
-        if (!Config.SPEC.isLoaded() || !Config.ENABLE_WRENCH_MINING.getAsBoolean()
-                || !Config.ENABLE_WRENCH_MINING_DROPS.getAsBoolean())
+        if (!Config.SPEC.isLoaded() || !Config.ENABLE_WRENCH_TOOL.getAsBoolean()
+                || !Config.ENABLE_WRENCH_TOOL_DROPS.getAsBoolean())
             return;
 
-        if (!isHoldingWrench(event.getEntity()))
+        if (!isHoldingToolWrench(event.getEntity()))
             return;
 
         event.setCanHarvest(true);
@@ -48,14 +55,14 @@ public final class WrenchMiningHandler {
 
     @SubscribeEvent
     public static void onBreakSpeed(PlayerEvent.BreakSpeed event) {
-        if (!Config.SPEC.isLoaded() || !Config.ENABLE_WRENCH_MINING.getAsBoolean())
+        if (!Config.SPEC.isLoaded() || !Config.ENABLE_WRENCH_TOOL.getAsBoolean())
             return;
 
         Player player = event.getEntity();
-        if (!isHoldingWrench(player))
+        if (!isHoldingToolWrench(player))
             return;
 
-        float multiplier = (float) Config.WRENCH_MINING_SPEED_MULTIPLIER.getAsDouble();
+        float multiplier = (float) Config.WRENCH_TOOL_SPEED_MULTIPLIER.getAsDouble();
         ItemStack stack = player.getMainHandItem();
         BlockState state = event.getState();
         float toolBase = stack.getDestroySpeed(state);
@@ -73,7 +80,7 @@ public final class WrenchMiningHandler {
         event.setNewSpeed((float) ((multiplier + efficiency) * k));
     }
 
-    private static boolean isHoldingWrench(Player player) {
-        return player != null && WrenchUpgrades.hasMiningUpgrade(player.getMainHandItem());
+    private static boolean isHoldingToolWrench(Player player) {
+        return player != null && WrenchUpgrades.hasToolUpgrade(player.getMainHandItem());
     }
 }

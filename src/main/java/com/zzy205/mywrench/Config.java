@@ -50,26 +50,27 @@ public class Config {
                     "Players have a base attack speed of 4.0, so the modifier is (this value - 4.0); the default 1.6 shows as '1.6 Attack Speed'.")
             .defineInRange("wrenchAttackSpeed", 1.6D, 0.1D, 4.0D);
 
-    // ==== 扳手强化：挖掘 =========================================================
+    // ==== 扳手强化：工具（挖掘 / 砍树 / 铲土等一切方块）=========================
 
-    public static final ModConfigSpec.BooleanValue ENABLE_WRENCH_MINING = BUILDER
-            .comment("Let the Create wrench mine blocks with a boosted speed.")
-            .define("enableWrenchMining", true);
+    public static final ModConfigSpec.BooleanValue ENABLE_WRENCH_TOOL = BUILDER
+            .comment("Let the Create wrench break blocks faster, like a real tool:",
+                    "dirt, stone, ores, wood, leaves and everything else get the boosted speed.")
+            .define("enableWrenchTool", true);
 
-    public static final ModConfigSpec.DoubleValue WRENCH_MINING_SPEED_MULTIPLIER = BUILDER
-            .comment("Mining speed multiplier applied to the wrench.",
-                    "A non-tool item has a base mining speed of 1.0, so 8.0 is roughly diamond tool speed.")
-            .defineInRange("wrenchMiningSpeedMultiplier", 8.0D, 1.0D, 100.0D);
+    public static final ModConfigSpec.DoubleValue WRENCH_TOOL_SPEED_MULTIPLIER = BUILDER
+            .comment("Speed multiplier applied to breaking any block with the wrench.",
+                    "A non-tool item has a base speed of 1.0, so 8.0 is roughly diamond-tier tool speed.")
+            .defineInRange("wrenchToolSpeedMultiplier", 8.0D, 1.0D, 100.0D);
 
-    public static final ModConfigSpec.BooleanValue ENABLE_WRENCH_MINING_DROPS = BUILDER
+    public static final ModConfigSpec.BooleanValue ENABLE_WRENCH_TOOL_DROPS = BUILDER
             .comment("Also allow the wrench to harvest drops from blocks that require a correct tool (stone, ores, ...).")
-            .define("enableWrenchMiningDrops", true);
+            .define("enableWrenchToolDrops", true);
 
     // ==== 扳手强化：锻造门槛 =====================================================
 
     public static final ModConfigSpec.BooleanValue ENABLE_UPGRADE_GATE = BUILDER
             .comment("Require a smithing upgrade before the wrench gets its bonus:",
-                    "attack upgrade = mywrench:wrench_attack_upgrade, mining upgrade = mywrench:wrench_mining_upgrade.",
+                    "attack upgrade = mywrench:wrench_attack_upgrade, tool upgrade = mywrench:wrench_tool_upgrade.",
                     "Set to false to boost every create:wrench (testing only).")
             .define("enableUpgradeGate", true);
 

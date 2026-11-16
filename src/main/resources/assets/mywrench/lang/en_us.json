@@ -12,9 +12,9 @@
   "mywrench.configuration.enableWrenchCombat": "Enable Wrench Combat",
   "mywrench.configuration.wrenchAttackDamage": "Wrench Attack Damage",
   "mywrench.configuration.wrenchAttackSpeed": "Wrench Attack Speed",
-  "mywrench.configuration.enableWrenchMining": "Enable Wrench Mining",
-  "mywrench.configuration.wrenchMiningSpeedMultiplier": "Wrench Mining Speed Multiplier",
-  "mywrench.configuration.enableWrenchMiningDrops": "Enable Wrench Mining Drops",
+  "mywrench.configuration.enableWrenchTool": "Enable Wrench Tool Mode",
+  "mywrench.configuration.wrenchToolSpeedMultiplier": "Wrench Tool Speed Multiplier",
+  "mywrench.configuration.enableWrenchToolDrops": "Enable Wrench Tool Drops",
   "mywrench.configuration.enableUpgradeGate": "Require Smithing Upgrade",
 
   "item.mywrench.wrench_attack_upgrade_smithing_template": "Wrench Attack Upgrade Smithing Template",
@@ -25,11 +25,11 @@
   "item.mywrench.smithing_template.wrench_attack_upgrade.additions_slot_description": "Add a Netherite Ingot",
   "item.mywrench.wrench_attack_upgrade.desc": "Reinforced: high attack power",
 
-  "item.mywrench.wrench_mining_upgrade_smithing_template": "Wrench Mining Upgrade Smithing Template",
-  "item.mywrench.smithing_template.wrench_mining_upgrade.upgrade": "Mining Upgrade",
-  "item.mywrench.smithing_template.wrench_mining_upgrade.applies_to": "Create Wrench",
-  "item.mywrench.smithing_template.wrench_mining_upgrade.ingredients": "Netherite Ingot",
-  "item.mywrench.smithing_template.wrench_mining_upgrade.base_slot_description": "Add a Create Wrench",
-  "item.mywrench.smithing_template.wrench_mining_upgrade.additions_slot_description": "Add a Netherite Ingot",
-  "item.mywrench.wrench_mining_upgrade.desc": "Reinforced: diamond-grade mining"
+  "item.mywrench.wrench_tool_upgrade_smithing_template": "Wrench Tool Upgrade Smithing Template",
+  "item.mywrench.smithing_template.wrench_tool_upgrade.upgrade": "Tool Upgrade",
+  "item.mywrench.smithing_template.wrench_tool_upgrade.applies_to": "Create Wrench",
+  "item.mywrench.smithing_template.wrench_tool_upgrade.ingredients": "Netherite Ingot",
+  "item.mywrench.smithing_template.wrench_tool_upgrade.base_slot_description": "Add a Create Wrench",
+  "item.mywrench.smithing_template.wrench_tool_upgrade.additions_slot_description": "Add a Netherite Ingot",
+  "item.mywrench.wrench_tool_upgrade.desc": "Reinforced: diamond-tier tool speed on every block (mining, chopping, digging...)"
 }
